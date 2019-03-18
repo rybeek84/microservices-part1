@@ -1,6 +1,10 @@
 #Target folder
 target/*
 
+#intellij config folder
+.idea/*
+*.iml
+
 # Compiled class file
 *.class
 
