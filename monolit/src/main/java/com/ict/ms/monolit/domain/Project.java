@@ -10,11 +10,16 @@ import java.util.Set;
 @Entity
 @Data
 public class Project {
+
     @Id
     @GeneratedValue
     private Long id;
+
+    @AttributeOverride(name = "email", column = @Column(name="owner"))
     private UserEmail owner;
+
     private String name;
+
     @OneToMany(
             mappedBy = "project",
             cascade = CascadeType.ALL,
