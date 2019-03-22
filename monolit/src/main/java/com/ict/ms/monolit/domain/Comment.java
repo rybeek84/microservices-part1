@@ -1,5 +1,6 @@
 package com.ict.ms.monolit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ict.ms.monolit.domain.vo.UserEmail;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +19,6 @@ public class Comment {
     private UserEmail createdBy;
     private String text;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Task task;
 }
