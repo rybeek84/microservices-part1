@@ -2,8 +2,9 @@ package com.ict.ms.monolit.domain;
 
 import com.ict.ms.monolit.domain.exception.TaskNotFoundException;
 import com.ict.ms.monolit.domain.vo.UserEmail;
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
 @EqualsAndHashCode(of="id")
 public class Project {
 
@@ -30,24 +31,36 @@ public class Project {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Task> tasks = new HashSet<>();
+    private Set<Task> tasks;
 
     @OneToMany(
             mappedBy = "project",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<ProjectMember> members = new HashSet<>();
+    private Set<ProjectMember> members;
 
-    public boolean canCreateTask(String userEmail) {
-        return members.stream().filter(members -> members.hasSameEmail(userEmail))
-                .findFirst()
-                .map(member -> member.isAllowedCreateTask())
-                .orElse(false);
+    Project(){
+        members = new HashSet<>();
+        tasks = new HashSet<>();
+    }
+
+    @Builder
+    public Project(UserEmail owner, String name) {
+        this();
+        this.owner = owner;
+        this.name = name;
+        this.uuid = UUID.randomUUID();
+        this.status = Status.NEW;
+        addMember(ProjectMember.builder()
+                .user(owner)
+                .project(this)
+                .build());
     }
 
     public void addTask(Task task) {
         this.tasks.add(task);
+        task.addToProject(this);
     }
 
     public Task findTask(UUID uuid) {
@@ -59,4 +72,10 @@ public class Project {
     public void addMember(ProjectMember member) {
         this.members.add(member);
     }
+
+    public boolean isMember(UserEmail user){
+        return members.stream().anyMatch(member -> member.getUser().equals(user));
+    }
+
+
 }

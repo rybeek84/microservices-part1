@@ -4,15 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ict.ms.monolit.domain.vo.UserEmail;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
 public class Task {
     @Id
     @GeneratedValue
@@ -38,4 +40,23 @@ public class Task {
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    Task(){
+
+    }
+
+    @Builder
+    public Task(String name, String description, LocalDateTime dueDate, UserEmail author, UserEmail assignedTo) {
+        this.name = name;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.author = author;
+        this.assignedTo = assignedTo;
+        this.uuid = UUID.randomUUID();
+        this.comments = new ArrayList<>();
+    }
+
+    void addToProject(Project project){
+        this.project = project;
+    }
 }

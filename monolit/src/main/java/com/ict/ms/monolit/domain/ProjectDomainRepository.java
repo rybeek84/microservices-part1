@@ -5,6 +5,7 @@ import com.ict.ms.monolit.infrastructure.persistence.ProjectJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectDomainRepository {
@@ -16,9 +17,8 @@ public class ProjectDomainRepository {
         this.projectJpaRepository = projectJpaRepository;
     }
 
-    public Project findById(Long id){
-        return projectJpaRepository.findById(id)
-                .orElseThrow(() -> new ProjectNotFoundException(id));
+    public Optional<Project> findById(Long id){
+        return projectJpaRepository.findById(id);
     }
 
     public Project save(Project project){
@@ -27,5 +27,9 @@ public class ProjectDomainRepository {
 
     public List<Project> findAll() {
         return projectJpaRepository.findAll();
+    }
+
+    public void delete(Long id) {
+        projectJpaRepository.delete(id);
     }
 }

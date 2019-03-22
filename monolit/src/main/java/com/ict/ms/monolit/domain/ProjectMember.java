@@ -20,22 +20,16 @@ public class ProjectMember{
 
     private UserEmail user;
 
-    private boolean allowedCreateTask;
-    private boolean allowedUpdateTask;
-    private boolean allowedDeleteTask;
 
     ProjectMember(){}
 
     @Builder
-    public ProjectMember(Project project, UserEmail user, boolean allowedCreateTask, boolean allowedUpdateTask, boolean allowedDeleteTask) {
+    private ProjectMember(Project project, UserEmail user) {
         this.project = project;
         this.user = user;
-        this.allowedCreateTask = allowedCreateTask;
-        this.allowedUpdateTask = allowedUpdateTask;
-        this.allowedDeleteTask = allowedDeleteTask;
     }
 
-    public boolean hasSameEmail(String email){
+    protected boolean emailMatch(String email){
         return user.getEmail().equalsIgnoreCase(email);
     }
 
