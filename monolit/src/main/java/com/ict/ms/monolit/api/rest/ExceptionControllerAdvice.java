@@ -1,21 +1,19 @@
-package com.ict.ms.monolit.controller.advice;
+package com.ict.ms.monolit.api.rest;
 
-import com.ict.ms.monolit.controller.dto.ApiError;
+import com.ict.ms.monolit.api.rest.dto.ApiError;
 import com.ict.ms.monolit.domain.exception.ProjectNotFoundException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
+public class ExceptionControllerAdvice {
 
 
     @ExceptionHandler(ProjectNotFoundException.class)
-    public ResponseEntity<Object> handleMissingProject(
+    public ResponseEntity<ApiError> handleMissingProject(
             ProjectNotFoundException exception,
             WebRequest webRequest){
 
@@ -23,11 +21,7 @@ public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
                 .message(exception.getLocalizedMessage())
                 .build();
 
-       return handleExceptionInternal(
-               exception,
-               error,
-               new HttpHeaders(),
-               HttpStatus.NOT_FOUND, webRequest);
+       return new ResponseEntity<ApiError>(error, HttpStatus.NOT_FOUND );
 
     }
 }

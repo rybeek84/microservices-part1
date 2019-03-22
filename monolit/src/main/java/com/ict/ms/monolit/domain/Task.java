@@ -19,7 +19,7 @@ public class Task {
     private Long id;
     private String name;
     private String description;
-    private Status status;
+    private Status status = Status.NEW;
     private LocalDateTime dueDate;
 
     @ReadOnlyProperty

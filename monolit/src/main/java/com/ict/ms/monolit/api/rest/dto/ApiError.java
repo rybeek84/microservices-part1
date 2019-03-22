@@ -1,4 +1,4 @@
-package com.ict.ms.monolit.controller.dto;
+package com.ict.ms.monolit.api.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,8 +13,9 @@ public class ApiError {
 
     @JsonCreator
     @Builder
-    private ApiError(@JsonProperty("status") HttpStatus status,
-                    @JsonProperty("message") String message) {
+    private ApiError(
+            @JsonProperty("status") HttpStatus status,
+            @JsonProperty("message") String message) {
         this.status = status;
         this.message = message;
     }

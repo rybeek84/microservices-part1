@@ -1,5 +1,6 @@
-package com.ict.ms.monolit.controller;
+package com.ict.ms.monolit.api.rest;
 
+import com.ict.ms.monolit.api.rest.dto.NewProjectDto;
 import com.ict.ms.monolit.domain.*;
 import com.ict.ms.monolit.domain.vo.UserEmail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class ProjectRestController {
     }
 
     @PostMapping(value = "/projects")
-    public Project createProject(HttpServletRequest request, @RequestBody String name){
+    public Project createProject(HttpServletRequest request, @RequestBody NewProjectDto newProject){
         Project project = new Project();
-        project.setName(name);
+        project.setName(newProject.getName());
         project.setOwner(new UserEmail(request.getHeader("userId")));
         project.setUuid(UUID.randomUUID());
         project.addMember(ProjectMember.builder()

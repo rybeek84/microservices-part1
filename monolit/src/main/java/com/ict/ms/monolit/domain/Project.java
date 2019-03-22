@@ -22,6 +22,7 @@ public class Project {
     @AttributeOverride(name = "email", column = @Column(name="owner"))
     private UserEmail owner;
     private String name;
+    private Status status = Status.NEW;
     private UUID uuid;
 
     @OneToMany(
