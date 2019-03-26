@@ -30,6 +30,6 @@ public class ProjectDomainRepository {
     }
 
     public void delete(Long id) {
-        projectJpaRepository.delete(id);
+        projectJpaRepository.deleteById(id);
     }
 }

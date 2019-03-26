@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Project{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @AttributeOverride(name = "email", column = @Column(name="owner"))

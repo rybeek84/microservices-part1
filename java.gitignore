@@ -2,6 +2,7 @@
 target/*
 
 #intellij config folder
+.idea
 .idea/*
 *.iml
 
