@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @EqualsAndHashCode(of="id")
-public class Project {
+public class Project{
 
     @Id
     @GeneratedValue
