@@ -78,4 +78,7 @@ public class Project{
     }
 
 
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
 }

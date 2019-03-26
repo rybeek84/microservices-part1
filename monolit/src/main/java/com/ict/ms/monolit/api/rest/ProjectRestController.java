@@ -2,6 +2,7 @@ package com.ict.ms.monolit.api.rest;
 
 import com.ict.ms.monolit.api.rest.dto.NewProjectDto;
 import com.ict.ms.monolit.api.rest.dto.NewTaskDto;
+import com.ict.ms.monolit.api.rest.dto.StatusDto;
 import com.ict.ms.monolit.domain.*;
 import com.ict.ms.monolit.domain.exception.InvalidProjectMemberException;
 import com.ict.ms.monolit.domain.exception.ProjectNotFoundException;
@@ -56,7 +57,6 @@ public class ProjectRestController {
                 .owner(new UserEmail(request.getHeader("userId")))
                 .build();
 
-
         return projectRepository.save(project);
     }
 
@@ -84,6 +84,22 @@ public class ProjectRestController {
         }
 
         throw new InvalidProjectMemberException(userEmail);
+    }
 
+    @PatchMapping(value = "/projects/{id}")
+    public Project updateStatus(@RequestHeader("userId") String userEmail,
+                                @RequestBody StatusDto status,
+                                @PathVariable("id") Long projectId){
+
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() ->new ProjectNotFoundException(projectId));
+
+        UserEmail author = new UserEmail(userEmail);
+
+        if(project.isMember(author)) {
+            project.updateStatus(status.getAsEnum());
+            return projectRepository.save(project);
+        }
+        throw new InvalidProjectMemberException(userEmail);
     }
 }

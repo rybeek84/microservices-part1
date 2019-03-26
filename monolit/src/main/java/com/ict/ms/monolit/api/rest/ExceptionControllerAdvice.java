@@ -2,6 +2,7 @@ package com.ict.ms.monolit.api.rest;
 
 import com.ict.ms.monolit.api.rest.dto.ApiError;
 import com.ict.ms.monolit.domain.exception.InvalidProjectMemberException;
+import com.ict.ms.monolit.domain.exception.InvalidStatusException;
 import com.ict.ms.monolit.domain.exception.ProjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +17,32 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ApiError> handleMissingProject(
             ProjectNotFoundException exception){
 
-        ApiError error = ApiError.builder().status(HttpStatus.NOT_FOUND)
-                .message(exception.getLocalizedMessage())
-                .build();
+        ApiError error = getApiError(HttpStatus.NOT_FOUND, exception.getLocalizedMessage());
 
-       return new ResponseEntity<>(error, HttpStatus.NOT_FOUND );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND );
     }
 
     @ExceptionHandler(InvalidProjectMemberException.class)
     public ResponseEntity<ApiError> handleMissingProject(
             InvalidProjectMemberException exception){
 
-        ApiError error = ApiError.builder().status(HttpStatus.FORBIDDEN)
-                .message(exception.getLocalizedMessage())
-                .build();
+        ApiError error = getApiError(HttpStatus.FORBIDDEN, exception.getLocalizedMessage());
 
         return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(InvalidStatusException.class)
+    public ResponseEntity<ApiError> handleInvalidStatus(InvalidStatusException ex){
+        ApiError error = getApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    private ApiError getApiError(HttpStatus forbidden, String localizedMessage) {
+        return ApiError.builder().status(forbidden)
+                .message(localizedMessage)
+                .build();
+    }
+
 
 }
