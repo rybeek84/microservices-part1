@@ -1,6 +1,5 @@
 package com.ict.ms.monolit.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ict.ms.monolit.domain.vo.UserEmail;
 import lombok.Builder;

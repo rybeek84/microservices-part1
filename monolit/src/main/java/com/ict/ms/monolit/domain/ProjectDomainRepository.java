@@ -1,6 +1,5 @@
 package com.ict.ms.monolit.domain;
 
-import com.ict.ms.monolit.domain.exception.ProjectNotFoundException;
 import com.ict.ms.monolit.infrastructure.persistence.ProjectJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
